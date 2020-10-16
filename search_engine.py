@@ -4,6 +4,7 @@
 #######################
 
 import os
+import sys
 import math
 import operator
 from collections import Counter
@@ -12,8 +13,7 @@ from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 
-# Your dir path that contains files to compare query with
-corpusroot = './presidential_debates'
+# Stopwords list
 lis = stopwords.words('english')
 stopwordSorted = sorted(lis)
 
@@ -158,6 +158,13 @@ def query(queryString):  # Get the most similar document and its similarity base
 #################
 #     MAIN      #
 #################
+
+fn = sys.argv[1] # Query
+fn1 = sys.argv[2] # Path to directory containing your list of documents 
+
+corpusroot = fn1
+searchEngineQuery = fn
+
 # Open the directory and read each file one by one
 for filename in os.listdir(corpusroot):
     file = open(os.path.join(corpusroot, filename), "r", encoding='UTF-8')
@@ -202,15 +209,6 @@ for i in range(len(wordListAll)):
 tf_idf = OrderedDict(sorted(
     tf_idf.items(), key=operator.itemgetter(1), reverse=True))
 
-############
-# GRADING #
-###########
+################# Printing Output #################
 
-graderTokenForIdf = "reason"
-graderTokenForWeight = "hispan"
-graderFileForWeight = "2012-10-16.txt"
-graderQuery = "health insurance wall street"
-
-print("%.12f" % getidf(graderTokenForIdf))
-print("%.12f" % getweight(graderFileForWeight, graderTokenForWeight))
-print("(%s, %.12f)" % query(graderQuery))
+print("(%s, %.12f)" % query(searchEngineQuery))
